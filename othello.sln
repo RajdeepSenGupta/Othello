@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othello", "Othello.csproj", "{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Debug.ActiveCfg = Debug|.NET
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Debug.Build.0 = Debug|.NET
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Release.ActiveCfg = Release|.NET
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
