@@ -5,7 +5,8 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Othello {
+namespace Othello
+{
     using System;
 
     /// <summary>

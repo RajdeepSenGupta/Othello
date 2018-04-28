@@ -8,20 +8,20 @@ using System.Drawing.Drawing2D;
 
 namespace Othello
 {
-	///	<summary>
-	///	Summary	description	for	Form1.
-	///	</summary>
-	public class Form1 : System.Windows.Forms.Form
-	{
-		///	<summary>
-		///	Required designer variable.
-		///	</summary>
-		private	System.ComponentModel.Container	components = null;
-		
+    ///	<summary>
+    ///	Summary	description	for	Form1.
+    ///	</summary>
+    public class Form1 : System.Windows.Forms.Form
+    {
+        ///	<summary>
+        ///	Required designer variable.
+        ///	</summary>
+        private System.ComponentModel.Container components = null;
+
         private Square[,] _squares;
         private OthelloBoard _board;
         private OthelloMove _lastPlayedMove;
-        
+
         private OthelloPlayer _blackPlayer, _whitePlayer, _currentPlayer;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -34,75 +34,86 @@ namespace Othello
         private System.Windows.Forms.Label EmptyCount;
         private System.Windows.Forms.Label Status;
 
-		public Form1() {
-		    this.SuspendLayout();
+        public Form1()
+        {
+            this.SuspendLayout();
             CreateSquares();
-			InitializeComponent();
-			this.ResumeLayout(true);
+            InitializeComponent();
+            this.ResumeLayout(true);
 
             CreateDefaultBoard();
             //_blackPlayer = new SmartOthelloPlayer();
             _whitePlayer = new SmartOthelloPlayer();
             SyncBoardToUI();
 
-			AsyncTaskManager.RegisterUIThread(this);
-		}
+            AsyncTaskManager.RegisterUIThread(this);
+        }
 
-        private void OnPlayerStatus(object sender, AsyncTaskResultPostedEventArgs e) {
+        private void OnPlayerStatus(object sender, AsyncTaskResultPostedEventArgs e)
+        {
             string status = e.Data as string;
-            if (status != null) {
+            if (status != null)
+            {
                 Status.Text = status;
                 return;
             }
-            PlayerResult result = (PlayerResult) e.Data;
+            PlayerResult result = (PlayerResult)e.Data;
             Status.Text = result.Status;
             PlayMove(result.Move);
         }
 
-        private void CreateSquares() 
+        private void CreateSquares()
         {
-            _squares = new Square[8,8];
-            for	(byte y=0; y<8; y++)	{
-                for (byte x=0; x<8; x++) {
-                    _squares[x,y] = new Square(x, y);
-                    _squares[x,y].BackColor = System.Drawing.Color.FromArgb(((System.Byte)(200)), ((System.Byte)(200)), ((System.Byte)(100)));
-                    _squares[x,y].Click += new System.EventHandler(this.OnSquareClicked);
-                    Controls.Add(_squares[x,y]);
+            _squares = new Square[8, 8];
+            for (byte y = 0; y < 8; y++)
+            {
+                for (byte x = 0; x < 8; x++)
+                {
+                    _squares[x, y] = new Square(x, y);
+                    _squares[x, y].BackColor = System.Drawing.Color.FromArgb(((System.Byte)(200)), ((System.Byte)(200)), ((System.Byte)(100)));
+                    _squares[x, y].Click += new System.EventHandler(this.OnSquareClicked);
+                    Controls.Add(_squares[x, y]);
                 }
             }
         }
-            
-        private void CreateDefaultBoard() {
+
+        private void CreateDefaultBoard()
+        {
             _board = OthelloBoard.CreateStartingBoard();
         }
 
-        private void SyncBoardToUI() {
+        private void SyncBoardToUI()
+        {
             _currentPlayer = _board.CurrentPlayer == SquareState.Black ? _blackPlayer : _whitePlayer;
 
-            for	(int y=0; y<8; y++)	{
-                for (int x=0; x<8; x++) {
-                    _squares[x,y].State = _board[x,y];
-                    
-                    _squares[x,y].ShowAsValidMove((_currentPlayer == null) &&
-                        _board.IsValidMove(new OthelloMove(x,y)));
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    _squares[x, y].State = _board[x, y];
 
-                    _squares[x,y].ShowAsLastMovePlayed(_lastPlayedMove != null &&
+                    _squares[x, y].ShowAsValidMove((_currentPlayer == null) &&
+                        _board.IsValidMove(new OthelloMove(x, y)));
+
+                    _squares[x, y].ShowAsLastMovePlayed(_lastPlayedMove != null &&
                         _lastPlayedMove.X == x && _lastPlayedMove.Y == y);
                 }
             }
-            
+
             BlackCount.Text = _board.BlackSquares.ToString();
             WhiteCount.Text = _board.WhiteSquares.ToString();
             EmptyCount.Text = _board.EmptySquares.ToString();
         }
 
-        private void OnSquareClicked(object sender, System.EventArgs e) {
-            Square square = (Square) sender;
-            
-            PlayMove(new OthelloMove(square.X,square.Y));
+        private void OnSquareClicked(object sender, System.EventArgs e)
+        {
+            Square square = (Square)sender;
+
+            PlayMove(new OthelloMove(square.X, square.Y));
         }
-        
-        private void PlayMove(OthelloMove move) {
+
+        private void PlayMove(OthelloMove move)
+        {
             if (!_board.IsValidMove(move))
                 return;
 
@@ -110,17 +121,19 @@ namespace Othello
             _board.PlayMove(move);
             _lastPlayedMove = move;
             _board.FixUpCurrentPlayer();
-            
+
             SyncBoardToUI();
 
             this.BeginInvoke(new PostMoveMethodDelegate(DoPostMoveProcessing),
-                new object[] {previousPlayerColor});
+                new object[] { previousPlayerColor });
         }
-        
+
         private delegate void PostMoveMethodDelegate(SquareState previousPlayerColor);
-        
-        private void DoPostMoveProcessing(SquareState previousPlayerColor) {
-            if (_board.GameOver) {
+
+        private void DoPostMoveProcessing(SquareState previousPlayerColor)
+        {
+            if (_board.GameOver)
+            {
                 MessageBox.Show("Game over!  Black: " + _board.BlackSquares +
                     " White: " + _board.WhiteSquares);
             }
@@ -132,63 +145,66 @@ namespace Othello
             PlayNextMove();
         }
 
-        private void PlayNextMove() {
+        private void PlayNextMove()
+        {
             if (_board.GameOver)
                 return;
 
-            if (_currentPlayer != null) {
+            if (_currentPlayer != null)
+            {
                 _currentPlayer.SetBoard(_board);
                 _currentPlayer.Start(new AsyncTaskResultPostedEventHandler(this.OnPlayerStatus));
             }
         }
 
-        protected override void OnLayout(LayoutEventArgs e) {
+        protected override void OnLayout(LayoutEventArgs e)
+        {
 
             base.OnLayout(e);
 
             int size = ClientRectangle.Height;
-        
+
             int padding = 30;
-            size -= padding*2;
-        
-            int squareSize = size/8;
-        
-            for	(int y=0; y<8; y++)	
+            size -= padding * 2;
+
+            int squareSize = size / 8;
+
+            for (int y = 0; y < 8; y++)
             {
-                for (int x=0; x<8; x++) 
+                for (int x = 0; x < 8; x++)
                 {
-                    Square square = _squares[x,y];
+                    Square square = _squares[x, y];
                     square.Width = squareSize;
                     square.Height = squareSize;
-                    square.Left = x*squareSize + padding;
-                    square.Top = y*squareSize + padding;
+                    square.Left = x * squareSize + padding;
+                    square.Top = y * squareSize + padding;
                     square.Invalidate();
                 }
             }
         }
 
-		///	<summary>
-		///	Clean up any resources being used.
-		///	</summary>
-		protected override void	Dispose( bool disposing	)
-		{
-			if(	disposing )
-			{
-				if (components != null)	
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing	);
-		}
+        ///	<summary>
+        ///	Clean up any resources being used.
+        ///	</summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region	Windows	Form Designer generated	code
-		///	<summary>
-		///	Required method	for	Designer support - do not modify
-		///	the	contents of	this method	with the code editor.
-		///	</summary>
-		private	void InitializeComponent()
-		{
+        #region	Windows	Form Designer generated	code
+        ///	<summary>
+        ///	Required method	for	Designer support - do not modify
+        ///	the	contents of	this method	with the code editor.
+        ///	</summary>
+        private void InitializeComponent()
+        {
             this.Play = new System.Windows.Forms.Button();
             this.Status = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -320,30 +336,33 @@ namespace Othello
             this.ResumeLayout(false);
 
         }
-		#endregion
+        #endregion
 
-		///	<summary>
-		///	The	main entry point for the application.
-		///	</summary>
-		[STAThread]
-		static void	Main() 
-		{
-			Application.Run(new	Form1());
-		}
+        ///	<summary>
+        ///	The	main entry point for the application.
+        ///	</summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.Run(new Form1());
+        }
 
-        private void button1_Click(object sender, System.EventArgs e) {
+        private void button1_Click(object sender, System.EventArgs e)
+        {
             PlayNextMove();
         }
 
-        private void SaveGame_Click(object sender, System.EventArgs e) {
+        private void SaveGame_Click(object sender, System.EventArgs e)
+        {
             _board.SaveToFile("game.txt");
         }
 
-        private void LoadGame_Click(object sender, System.EventArgs e) {
+        private void LoadGame_Click(object sender, System.EventArgs e)
+        {
             _board = OthelloBoard.LoadFromFile("game.txt");
             _lastPlayedMove = null;
             SyncBoardToUI();
         }
 
-	}
+    }
 }

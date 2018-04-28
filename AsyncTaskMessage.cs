@@ -5,13 +5,15 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Othello {
+namespace Othello
+{
     using System;
     using System.Diagnostics;
 
     /// <summary>
     /// </summary>
-    internal sealed class AsyncTaskMessage {
+    internal sealed class AsyncTaskMessage
+    {
         private AsyncTask _task;
         private object _data;
         private int _percentComplete;
@@ -22,7 +24,8 @@ namespace Othello {
         /// <param name="task"></param>
         /// <param name="data"></param>
         /// <param name="percentComplete"></param>
-        public AsyncTaskMessage(AsyncTask task, object data, int percentComplete, bool completed) {
+        public AsyncTaskMessage(AsyncTask task, object data, int percentComplete, bool completed)
+        {
             _task = task;
             _data = data;
             _percentComplete = percentComplete;
@@ -31,32 +34,40 @@ namespace Othello {
 
         /// <summary>
         /// </summary>
-        public AsyncTask Task {
-            get {
+        public AsyncTask Task
+        {
+            get
+            {
                 return _task;
             }
         }
 
         /// <summary>
         /// </summary>
-        public object Data {
-            get {
+        public object Data
+        {
+            get
+            {
                 return _data;
             }
         }
 
         /// <summary>
         /// </summary>
-        public bool IsComplete {
-            get {
+        public bool IsComplete
+        {
+            get
+            {
                 return _completed;
             }
         }
 
         /// <summary>
         /// </summary>
-        public int PercentComplete {
-            get {
+        public int PercentComplete
+        {
+            get
+            {
                 return _percentComplete;
             }
         }
