@@ -121,7 +121,7 @@ namespace Othello
         
         private void DoPostMoveProcessing(SquareState previousPlayerColor) {
             if (_board.GameOver) {
-                MessageBox.Show("Game over!  Black: " + _board.PlayerSquares +
+                MessageBox.Show("Game over!  Black: " + _board.BlackSquares +
                     " White: " + _board.WhiteSquares);
             }
             else if (_board.CurrentPlayer == previousPlayerColor)
