@@ -1,21 +1,24 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Othello", "Othello.csproj", "{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Release = Release
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		Release|Default = Release|Default
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Debug.ActiveCfg = Debug|.NET
-		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Debug.Build.0 = Debug|.NET
-		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Release.ActiveCfg = Release|.NET
-		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Release.Build.0 = Release|.NET
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Debug|Default.ActiveCfg = Debug|Any CPU
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Debug|Default.Build.0 = Debug|Any CPU
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Release|Default.ActiveCfg = Release|Any CPU
+		{08C82A56-882B-45DE-8B9D-AD9DBBE0F6EC}.Release|Default.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+		SolutionGuid = {EE2E821A-D19E-43B2-B982-2CA55ECD0068}
 	EndGlobalSection
 EndGlobal
